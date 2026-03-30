@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  auth-ser:
+    build: ./auth-ser
+    ports:
+      - "8002:8002"
+    restart: always
+
+  task-ser:
+    build: ./task-ser
+    ports:
+      - "8003:8003"
+    restart: always 
