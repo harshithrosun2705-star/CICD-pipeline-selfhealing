@@ -1,4 +1,4 @@
-Coud-Native Microservices Application with CI/CD and Monitoring
+Cloud-Native Microservices Application with CI/CD and Monitoring
 
 Overview
 This project is a **microservices-based web application** built to demonstrate real-world DevOps practices.
