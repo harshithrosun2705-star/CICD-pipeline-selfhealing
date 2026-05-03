@@ -1,0 +1,22 @@
+from fastapi import FastAPI
+from pydantic import BaseModel
+import sqlite3
+
+app = FastAPI()
+
+# DB Connection
+conn = sqlite3.connect("users.db", check_same_thread=False)
+cursor = conn.cursor()
+
+# Create Table
+cursor.execute("""
+Instrumentator().instrument(app).expose(app)CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT,
+    password TEXT
+)
+""")
+conn.commit()
+
+# Request Model
+class User(Ba        (user.username, 

@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment
+.env
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+*.tar
+
+# VS Code
+.vscode/
+
+# Node (if any frontend tooling later)
+node_modules/
+
+# Database (if you add later)
+*.db
+
+# Jenkins / secrets
+secrets/
+
+pass.txt

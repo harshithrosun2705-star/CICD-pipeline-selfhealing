@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>DevOps Project</title>
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Register</h2>
-<input id="username" placeholder="Username">
-<input id="password" type="password" placeholder="Password">
-<button onclick="register()">Register</button>
+<div class="container">
+  <h2>Login</h2>
 
-<h2>Login</h2>
-<button onclick="login()">Login</button>
+  <input id="username" placeholder="Username">
+  <input id="password" type="password" placeholder="Password">
 
-<h2>Add Task</h2>
-<input id="task" placeholder="Task">
-<button onclick="addTask()">Add</button>
+  <button onclick="login()">Login</button>
+  <button onclick="register()">Register</button>
 
-<h2>Tasks</h2>
-<button onclick="getTasks()">Show Tasks</button>
-<ul id="taskList"></ul>
+  <p id="message"></p>
+</div>
 
 <script src="script.js"></script>
 </body>

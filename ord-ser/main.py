@@ -13,27 +13,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-tasks = []
+orders = []
 
-REQUEST_COUNT = Counter("task_requests_total", "Total Task Requests")
+REQUEST_COUNT = Counter("order_requests_total", "Total Order Requests")
 
-class Task(BaseModel):
-    title: str
+class Order(BaseModel):
+    item: str
 
-@app.get("/")
-def home():
-    return {"message": "Task Service Running"}
-
-@app.post("/add")
-def add_task(task: Task):
+@app.post("/order")
+def create_order(order: Order):
     REQUEST_COUNT.inc()
-    tasks.append(task.title)
-    return {"message": "Task added"}
+    orders.append(order.item)
+    return {"message": "Order placed"}
 
-@app.get("/tasks")
-def get_tasks():
+@app.get("/orders")
+def get_orders():
     REQUEST_COUNT.inc()
-    return {"tasks": tasks}
+    return {"orders": orders}
 
 @app.get("/metrics")
 def metrics():

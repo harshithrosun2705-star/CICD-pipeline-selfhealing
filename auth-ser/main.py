@@ -1,48 +1,46 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import sqlite3
+from fastapi.middleware.cors import CORSMiddleware
+from prometheus_client import Counter, generate_latest
 
 app = FastAPI()
 
-# DB Connection
-conn = sqlite3.connect("users.db", check_same_thread=False)
-cursor = conn.cursor()
-
-# Create Table
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT,
-    password TEXT
+# CORS FIX
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
-""")
-conn.commit()
 
-# Request Model
+users = {}
+
+REQUEST_COUNT = Counter("auth_requests_total", "Total Auth Requests")
+
 class User(BaseModel):
     username: str
     password: str
 
-# Register API
+@app.get("/")
+def home():
+    return {"message": "Auth Service Running"}
+
 @app.post("/register")
 def register(user: User):
-    cursor.execute(
-        "INSERT INTO users (username, password) VALUES (?, ?)",
-        (user.username, user.password)
-    )
-    conn.commit()
+    REQUEST_COUNT.inc()
+    if user.username in users:
+        return {"message": "User already exists"}
+    users[user.username] = user.password
     return {"message": "User registered"}
 
-# Login API
 @app.post("/login")
 def login(user: User):
-    cursor.execute(
-        "SELECT * FROM users WHERE username=? AND password=?",
-        (user.username, user.password)
-    )
-    result = cursor.fetchone()
+    REQUEST_COUNT.inc()
+    if users.get(user.username) == user.password:
+        return {"message": "Login successful"}
+    return {"message": "Invalid credentials"}
 
-    if result:
-        return {"message": "Login success"}
-    else:
-        return {"message": "Invalid credentials"}
+@app.get("/metrics")
+def metrics():
+    return generate_latest()

@@ -1,0 +1,4 @@
+scrape_configs:
+  - job_name: 'services'
+    static_configs:
+      - targets: ['auth-ser:8002', 'task-ser:8003']

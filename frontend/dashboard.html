@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Dashboard</h1>
+
+<div class="section">
+  <h3>Add Task</h3>
+  <input id="taskInput" placeholder="Enter task">
+  <button onclick="addTask()">Add</button>
+</div>
+
+<div class="section">
+  <h3>View Tasks</h3>
+  <button onclick="getTasks()">Load Tasks</button>
+  <ul id="taskList"></ul>
+</div>
+
+<div class="section">
+  <h3>Create Order</h3>
+  <input id="orderInput" placeholder="Enter item">
+  <button onclick="createOrder()">Create</button>
+</div>
+
+<div class="section">
+  <h3>Orders</h3>
+  <button onclick="getOrders()">Load Orders</button>
+  <ul id="orderList"></ul>
+</div>
+
+<button onclick="logout()" class="logout">Logout</button>
+
+<script src="script.js"></script>
+</body>
+</html>
