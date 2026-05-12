@@ -1,84 +1,133 @@
-const AUTH = "http://localhost:8002";
-const TASK = "http://localhost:8003";
-const ORDER = "http://localhost:8004";
+const AUTH_URL = "http://localhost:8002";
+const TASK_URL = "http://localhost:8003";
+const ORDER_URL = "http://localhost:8004";
 
-// LOGIN
-async function login() {
-  const u = document.getElementById("username").value;
-  const p = document.getElementById("password").value;
+async function registerUser(){
 
-  const res = await fetch(`${AUTH}/login?username=${u}&password=${p}`, {
-    method: "POST"
-  });
+    const username=document.getElementById("username").value;
+    const password=document.getElementById("password").value;
 
-  const data = await res.json();
+    const response=await fetch(`${AUTH_URL}/register`,{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({username,password})
+    });
 
-  if (data.message === "Login successful") {
-    localStorage.setItem("user", u);
-    window.location.href = "dashboard.html";
-  } else {
-    document.getElementById("message").innerText = "Login Failed";
-  }
+    const data=await response.json();
+
+    document.getElementById("message").innerText=data.message;
 }
 
-// REGISTER
-async function register() {
-  const u = document.getElementById("username").value;
-  const p = document.getElementById("password").value;
+async function loginUser(){
 
-  await fetch(`${AUTH}/register?username=${u}&password=${p}`, {
-    method: "POST"
-  });
+    const username=document.getElementById("username").value;
+    const password=document.getElementById("password").value;
 
-  alert("Registered successfully");
+    const response=await fetch(`${AUTH_URL}/login`,{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({username,password})
+    });
+
+    const data=await response.json();
+
+    if(data.message==="Login successful"){
+        window.location.href="dashboard.html";
+    }
+    else{
+        document.getElementById("message").innerText="Invalid credentials";
+    }
 }
 
-// TASK
-async function addTask() {
-  const task = document.getElementById("taskInput").value;
+function showSection(sectionId){
 
-  await fetch(`${TASK}/add-task?task=${task}`, { method: "POST" });
-  alert("Task added");
+    document.getElementById("tasks-section").classList.add("hidden");
+    document.getElementById("orders-section").classList.add("hidden");
+
+    document.getElementById(sectionId).classList.remove("hidden");
 }
 
-async function getTasks() {
-  const res = await fetch(`${TASK}/tasks`);
-  const data = await res.json();
+async function addTask(){
 
-  const list = document.getElementById("taskList");
-  list.innerHTML = "";
+    const task=document.getElementById("taskInput").value;
 
-  data.tasks.forEach(t => {
-    const li = document.createElement("li");
-    li.innerText = t;
-    list.appendChild(li);
-  });
+    await fetch(`${TASK_URL}/tasks`,{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({task})
+    });
+
+    loadTasks();
 }
 
-// ORDER
-async function createOrder() {
-  const item = document.getElementById("orderInput").value;
+async function loadTasks(){
 
-  await fetch(`${ORDER}/create-order?item=${item}`, { method: "POST" });
-  alert("Order created");
+    const response=await fetch(`${TASK_URL}/tasks`);
+
+    const tasks=await response.json();
+
+    const taskList=document.getElementById("taskList");
+
+    taskList.innerHTML="";
+
+    tasks.forEach(t=>{
+
+        const li=document.createElement("li");
+
+        li.innerText=t.task;
+
+        taskList.appendChild(li);
+    });
 }
 
-async function getOrders() {
-  const res = await fetch(`${ORDER}/orders`);
-  const data = await res.json();
+async function placeOrder(){
 
-  const list = document.getElementById("orderList");
-  list.innerHTML = "";
+    const item=document.getElementById("orderInput").value;
 
-  data.orders.forEach(o => {
-    const li = document.createElement("li");
-    li.innerText = o;
-    list.appendChild(li);
-  });
+    await fetch(`${ORDER_URL}/orders`,{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({item})
+    });
+
+    loadOrders();
 }
 
-// LOGOUT
-function logout() {
-  localStorage.removeItem("user");
-  window.location.href = "index.html";
+async function loadOrders(){
+
+    const response=await fetch(`${ORDER_URL}/orders`);
+
+    const orders=await response.json();
+
+    const orderList=document.getElementById("orderList");
+
+    orderList.innerHTML="";
+
+    orders.forEach(o=>{
+
+        const li=document.createElement("li");
+
+        li.innerText=o.item;
+
+        orderList.appendChild(li);
+    });
+}
+
+function logoutUser(){
+
+    window.location.href="index.html";
+}
+
+if(window.location.pathname.includes("dashboard")){
+
+    loadTasks();
+    loadOrders();
 }

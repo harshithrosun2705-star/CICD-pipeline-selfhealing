@@ -1,11 +1,10 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from prometheus_client import Counter, generate_latest
+from prometheus_fastapi_instrumentator import Instrumentator
 
-app = FastAPI()
+app = FastAPI(title="Auth Service")
 
-# CORS FIX
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -14,9 +13,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-users = {}
+Instrumentator().instrument(app).expose(app)
 
-REQUEST_COUNT = Counter("auth_requests_total", "Total Auth Requests")
+users = {}
 
 class User(BaseModel):
     username: str
@@ -26,21 +25,21 @@ class User(BaseModel):
 def home():
     return {"message": "Auth Service Running"}
 
+@app.get("/health")
+def health():
+    return {"status": "healthy"}
+
 @app.post("/register")
 def register(user: User):
-    REQUEST_COUNT.inc()
     if user.username in users:
         return {"message": "User already exists"}
+
     users[user.username] = user.password
-    return {"message": "User registered"}
+    return {"message": "User registered successfully"}
 
 @app.post("/login")
 def login(user: User):
-    REQUEST_COUNT.inc()
     if users.get(user.username) == user.password:
         return {"message": "Login successful"}
-    return {"message": "Invalid credentials"}
 
-@app.get("/metrics")
-def metrics():
-    return generate_latest()
+    return {"message": "Invalid credentials"}

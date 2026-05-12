@@ -1,44 +1,50 @@
 services:
 
-  auth-service:
-    build: ./auth-ser
-    ports:
-      - "8002:8000"
-    container_name: auth-service
-
-  task-service:
-    build: ./task-ser
-    ports:
-      - "8003:8000"
-    container_name: task-service
-
-  order-service:
-    build: ./ord-ser
-    ports:
-      - "8004:8000"
-    container_name: order-service
-
   frontend:
     build: ./frontend
+    container_name: frontend
     ports:
       - "8001:80"
-    container_name: frontend
+    restart: always
+
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    ports:
+      - "8002:8000"
+    restart: always
+
+  task-service:
+    build: ./task-service
+    container_name: task-service
+    ports:
+      - "8003:8000"
+    restart: always
+
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    ports:
+      - "8004:8000"
+    restart: always
 
   prometheus:
     image: prom/prometheus
+    container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    container_name: prometheus
+    restart: always
 
   grafana:
     image: grafana/grafana
+    container_name: grafana
     ports:
       - "3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
-    container_name: grafana
+    restart: always
 
 volumes:
   grafana-data:

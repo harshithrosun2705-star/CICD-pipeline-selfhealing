@@ -1,35 +1,140 @@
-body {
-  font-family: Arial;
-  background: linear-gradient(to right, #667eea, #764ba2);
-  color: white;
-  text-align: center;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
 }
 
-.container {
-  margin-top: 100px;
+body{
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    color:white;
+    min-height:100vh;
 }
 
-input {
-  padding: 10px;
-  margin: 10px;
-  border-radius: 5px;
-  border: none;
+.login-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
-button {
-  padding: 10px 20px;
-  margin: 5px;
-  background: #ff7eb3;
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
+.login-card{
+    width:350px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(10px);
+    padding:40px;
+    border-radius:16px;
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
 }
 
-.section {
-  margin: 20px;
+.login-card h1{
+    text-align:center;
+    margin-bottom:10px;
 }
 
-.logout {
-  background: red;
+.login-card p{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.login-card input{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border:none;
+    border-radius:8px;
+}
+
+.button-group{
+    display:flex;
+    gap:10px;
+}
+
+button{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.dashboard{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:250px;
+    background:#111827;
+    padding:30px;
+}
+
+.sidebar h2{
+    margin-bottom:30px;
+}
+
+.sidebar ul{
+    list-style:none;
+}
+
+.sidebar li{
+    padding:15px;
+    margin-bottom:10px;
+    background:#1f2937;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.sidebar li:hover{
+    background:#374151;
+}
+
+.main-content{
+    flex:1;
+    padding:30px;
+}
+
+.topbar{
+    margin-bottom:30px;
+}
+
+.card-section{
+    background:rgba(255,255,255,0.08);
+    padding:25px;
+    border-radius:16px;
+    margin-bottom:30px;
+}
+
+.input-row{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+.input-row input{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+}
+
+#taskList li,
+#orderList li{
+    background:#1e293b;
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:8px;
+}
+
+.hidden{
+    display:none;
 }

@@ -1,39 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-<h1>Dashboard</h1>
+<div class="dashboard">
 
-<div class="section">
-  <h3>Add Task</h3>
-  <input id="taskInput" placeholder="Enter task">
-  <button onclick="addTask()">Add</button>
+  <aside class="sidebar">
+    <h2>Healthcare</h2>
+
+    <ul>
+      <li onclick="showSection('tasks-section')">Appointments</li>
+      <li onclick="showSection('orders-section')">Medicine Orders</li>
+      <li onclick="logoutUser()">Logout</li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="topbar">
+      <h1>Patient Dashboard</h1>
+      <p>Welcome to Smart Healthcare Portal</p>
+    </div>
+
+    <section id="tasks-section" class="card-section">
+
+      <h2>Appointments & Health Tasks</h2>
+
+      <div class="input-row">
+        <input type="text" id="taskInput" placeholder="Book appointment or add health task"/>
+        <button onclick="addTask()">Add</button>
+      </div>
+
+      <ul id="taskList"></ul>
+
+    </section>
+
+    <section id="orders-section" class="card-section hidden">
+
+      <h2>Medicine & Lab Orders</h2>
+
+      <div class="input-row">
+        <input type="text" id="orderInput" placeholder="Request medicine or lab service"/>
+        <button onclick="placeOrder()">Place Order</button>
+      </div>
+
+      <ul id="orderList"></ul>
+
+    </section>
+
+  </main>
+
 </div>
-
-<div class="section">
-  <h3>View Tasks</h3>
-  <button onclick="getTasks()">Load Tasks</button>
-  <ul id="taskList"></ul>
-</div>
-
-<div class="section">
-  <h3>Create Order</h3>
-  <input id="orderInput" placeholder="Enter item">
-  <button onclick="createOrder()">Create</button>
-</div>
-
-<div class="section">
-  <h3>Orders</h3>
-  <button onclick="getOrders()">Load Orders</button>
-  <ul id="orderList"></ul>
-</div>
-
-<button onclick="logout()" class="logout">Logout</button>
 
 <script src="script.js"></script>
+
 </body>
 </html>
