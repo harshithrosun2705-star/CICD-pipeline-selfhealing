@@ -43,4 +43,4 @@ pipeline {
             echo 'Pipeline Failed ❌'
         }
     }
-} 
+}
