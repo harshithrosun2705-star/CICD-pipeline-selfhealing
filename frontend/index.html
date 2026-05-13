@@ -1,30 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Office Portal</title>
+  <title>DevOps Cloud Platform - Login</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="login-body">
 
-<div class="login-container">
   <div class="login-card">
-    <h1>Smart Office Portal</h1>
-    <p>Enterprise Workspace Management</p>
+    <h1>DevOps Cloud Platform</h1>
+    <p class="subtitle">CI/CD • Microservices • Monitoring</p>
 
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
+    <input type="email" id="email" placeholder="Enter Email">
+    <input type="password" id="password" placeholder="Enter Password">
 
-    <div class="button-group">
-      <button onclick="registerUser()">Register</button>
-      <button onclick="loginUser()">Login</button>
-    </div>
+    <button onclick="login()">Login</button>
+    <button class="secondary-btn" onclick="register()">Register</button>
 
-    <p id="message"></p>
+    <p class="note">Powered by Jenkins, Docker, AWS, Prometheus & Grafana</p>
   </div>
-</div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

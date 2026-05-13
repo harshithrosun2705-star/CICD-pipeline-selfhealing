@@ -1,63 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="dashboard">
+  <nav class="navbar">
+    <h2>Cloud DevOps Dashboard</h2>
+    <button onclick="logout()">Logout</button>
+  </nav>
 
-  <aside class="sidebar">
-    <h2>Healthcare</h2>
+  <section class="hero">
+    <h1>Welcome to Microservices Control Panel</h1>
+    <p>Manage services, monitor deployment, and access application modules.</p>
+  </section>
 
-    <ul>
-      <li onclick="showSection('tasks-section')">Appointments</li>
-      <li onclick="showSection('orders-section')">Medicine Orders</li>
-      <li onclick="logoutUser()">Logout</li>
-    </ul>
-  </aside>
-
-  <main class="main-content">
-
-    <div class="topbar">
-      <h1>Patient Dashboard</h1>
-      <p>Welcome to Smart Healthcare Portal</p>
+  <div class="dashboard-grid">
+    <div class="dash-card" onclick="openTasks()">
+      <h2>Task Service</h2>
+      <p>Create and manage project tasks.</p>
+      <button>Open Tasks</button>
     </div>
 
-    <section id="tasks-section" class="card-section">
+    <div class="dash-card" onclick="openOrders()">
+      <h2>Order Service</h2>
+      <p>View and manage orders.</p>
+      <button>Open Orders</button>
+    </div>
 
-      <h2>Appointments & Health Tasks</h2>
+    <div class="dash-card">
+      <h2>Auth Service</h2>
+      <p>Login and registration service running in container.</p>
+      <span class="status">Running</span>
+    </div>
 
-      <div class="input-row">
-        <input type="text" id="taskInput" placeholder="Book appointment or add health task"/>
-        <button onclick="addTask()">Add</button>
-      </div>
+    <div class="dash-card">
+      <h2>Monitoring</h2>
+      <p>Prometheus and Grafana enabled for observability.</p>
+      <span class="status">Active</span>
+    </div>
+  </div>
 
-      <ul id="taskList"></ul>
-
-    </section>
-
-    <section id="orders-section" class="card-section hidden">
-
-      <h2>Medicine & Lab Orders</h2>
-
-      <div class="input-row">
-        <input type="text" id="orderInput" placeholder="Request medicine or lab service"/>
-        <button onclick="placeOrder()">Place Order</button>
-      </div>
-
-      <ul id="orderList"></ul>
-
-    </section>
-
-  </main>
-
-</div>
-
-<script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>
