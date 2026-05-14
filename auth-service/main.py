@@ -16,13 +16,16 @@ app.add_middleware(
 
 Instrumentator().instrument(app).expose(app)
 
+DB_NAME = "users.db"
+
 class User(BaseModel):
     email: str
     password: str
 
 def init_db():
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect(DB_NAME)
     cur = conn.cursor()
+
     cur.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,6 +33,7 @@ def init_db():
             password TEXT
         )
     """)
+
     conn.commit()
     conn.close()
 
@@ -41,24 +45,44 @@ def home():
 
 @app.post("/register")
 def register(user: User):
-    try:
-        conn = sqlite3.connect("users.db")
-        cur = conn.cursor()
-        cur.execute("INSERT INTO users(email, password) VALUES (?, ?)", (user.email, user.password))
-        conn.commit()
+    conn = sqlite3.connect(DB_NAME)
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM users WHERE email=?", (user.email,))
+    existing = cur.fetchone()
+
+    if existing:
         conn.close()
-        return {"message": "Registration successful"}
-    except:
         return {"error": "User already exists"}
+
+    cur.execute(
+        "INSERT INTO users(email, password) VALUES (?, ?)",
+        (user.email, user.password)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return {"message": "Registration successful"}
 
 @app.post("/login")
 def login(user: User):
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect(DB_NAME)
     cur = conn.cursor()
-    cur.execute("SELECT * FROM users WHERE email=? AND password=?", (user.email, user.password))
-    data = cur.fetchone()
+
+    cur.execute(
+        "SELECT * FROM users WHERE email=? AND password=?",
+        (user.email, user.password)
+    )
+
+    existing = cur.fetchone()
+
     conn.close()
 
-    if data:
-        return {"message": "Login successful", "email": user.email}
+    if existing:
+        return {
+            "message": "Login successful",
+            "email": user.email
+        }
+
     return {"error": "Invalid email or password"}
