@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(title="Order Service")
@@ -16,33 +16,27 @@ app.add_middleware(
 Instrumentator().instrument(app).expose(app)
 
 orders = []
-order_id = 1001
 
 class Order(BaseModel):
-    item: str
+    email: str
+    product_name: str
+    price: int
 
 @app.get("/")
 def home():
-    return {"message": "Order Service Running"}
-
-@app.get("/health")
-def health():
-    return {"status": "healthy"}
+    return {"service": "Order Service running"}
 
 @app.post("/orders")
-def place_order(order: Order):
-    global order_id
-
+def create_order(order: Order):
     new_order = {
-        "id": order_id,
-        "item": order.item,
-        "status": "Placed"
+        "id": len(orders) + 1,
+        "email": order.email,
+        "product_name": order.product_name,
+        "price": order.price,
+        "status": "Order Placed"
     }
-
     orders.append(new_order)
-    order_id += 1
-
-    return {"message": "Order placed successfully", "order": new_order}
+    return new_order
 
 @app.get("/orders")
 def get_orders():

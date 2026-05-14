@@ -1,9 +1,8 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
 
-app = FastAPI(title="Task Service")
+app = FastAPI(title="Product Service")
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,34 +14,17 @@ app.add_middleware(
 
 Instrumentator().instrument(app).expose(app)
 
-tasks = []
-task_id = 1
-
-class Task(BaseModel):
-    task: str
+products = [
+    {"id": 1, "name": "Cloud Headphones", "price": 1999, "category": "Electronics"},
+    {"id": 2, "name": "DevOps Hoodie", "price": 1499, "category": "Fashion"},
+    {"id": 3, "name": "Wireless Keyboard", "price": 999, "category": "Accessories"},
+    {"id": 4, "name": "Smart Watch", "price": 2499, "category": "Electronics"},
+]
 
 @app.get("/")
 def home():
-    return {"message": "Task Service Running"}
+    return {"service": "Product Service running"}
 
-@app.get("/health")
-def health():
-    return {"status": "healthy"}
-
-@app.post("/tasks")
-def add_task(task: Task):
-    global task_id
-
-    new_task = {
-        "id": task_id,
-        "task": task.task
-    }
-
-    tasks.append(new_task)
-    task_id += 1
-
-    return {"message": "Task added successfully", "task": new_task}
-
-@app.get("/tasks")
-def get_tasks():
-    return tasks
+@app.get("/products")
+def get_products():
+    return products

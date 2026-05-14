@@ -1,22 +1,126 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>DevOps Cloud Platform - Login</title>
+  <meta charset="UTF-8">
+  <title>CloudMart Microservices</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="login-body">
+<body>
 
-  <div class="login-card">
-    <h1>DevOps Cloud Platform</h1>
-    <p class="subtitle">CI/CD • Microservices • Monitoring</p>
+  <!-- LOGIN PAGE -->
+  <div id="loginPage" class="login-page">
+    <div class="login-container">
 
-    <input type="email" id="email" placeholder="Enter Email">
-    <input type="password" id="password" placeholder="Enter Password">
+      <div class="login-left">
+        <h1>🛍️ CloudMart</h1>
+        <h2>Cloud-Native E-Commerce</h2>
+        <p>
+          A microservices-based shopping platform powered by Docker,
+          Jenkins, AWS, Prometheus, and Grafana.
+        </p>
 
-    <button onclick="login()">Login</button>
-    <button class="secondary-btn" onclick="register()">Register</button>
+        <ul>
+          <li>✅ Auth Microservice</li>
+          <li>✅ Product Microservice</li>
+          <li>✅ Order Microservice</li>
+          <li>✅ Real-time Monitoring</li>
+        </ul>
+      </div>
 
-    <p class="note">Powered by Jenkins, Docker, AWS, Prometheus & Grafana</p>
+      <div class="login-card">
+        <h2>Welcome Back</h2>
+        <p>Login or register to continue</p>
+
+        <input type="email" id="email" placeholder="Enter email">
+        <input type="password" id="password" placeholder="Enter password">
+
+        <button onclick="login()">Login</button>
+        <button class="dark-btn" onclick="register()">Register</button>
+
+        <small>Jenkins • Docker • AWS • Prometheus • Grafana</small>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DASHBOARD PAGE -->
+  <div id="appPage" class="app hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <h2>🛍️ CloudMart</h2>
+        <p class="tagline">MICROSERVICES APP</p>
+
+        <a class="active">🏠 Dashboard</a>
+        <a>📦 Products</a>
+        <a>🛒 Orders</a>
+        <a>📊 Monitoring</a>
+
+        <div class="service-box">
+          <h4>Microservices</h4>
+          <p>Auth Service <span>UP</span></p>
+          <p>Product Service <span>UP</span></p>
+          <p>Order Service <span>UP</span></p>
+        </div>
+      </div>
+
+      <div class="user-box">
+        <p id="sideUser">user@example.com</p>
+        <small>Logged in</small>
+        <button onclick="logout()">Logout</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+      <nav class="topbar">
+        <input type="text" placeholder="Search products...">
+        <h4 id="userEmail"></h4>
+      </nav>
+
+      <section class="hero">
+        <div>
+          <h1>Welcome back 👋</h1>
+          <p>Browse products and place orders using independent microservices.</p>
+        </div>
+        <div class="hero-icon">🛒</div>
+      </section>
+
+      <section class="stats">
+        <div class="stat-card">
+          <h3>Total Products</h3>
+          <b id="productCount">0</b>
+          <p>Available items</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Total Orders</h3>
+          <b id="orderCount">0</b>
+          <p>Your orders</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Service Status</h3>
+          <b class="green">All UP</b>
+          <p>Operational</p>
+        </div>
+      </section>
+
+      <section class="content">
+        <div class="products-section">
+          <h2>Products</h2>
+          <div id="products" class="products"></div>
+        </div>
+
+        <div class="orders-section">
+          <h2>My Orders</h2>
+          <div id="orders" class="orders"></div>
+        </div>
+      </section>
+
+    </main>
   </div>
 
   <script src="script.js"></script>

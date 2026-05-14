@@ -1,11 +1,14 @@
 services:
-
   frontend:
     build: ./frontend
     container_name: frontend
     ports:
       - "8001:80"
     restart: always
+    depends_on:
+      - auth-service
+      - task-service
+      - order-service
 
   auth-service:
     build: ./auth-service
@@ -42,9 +45,4 @@ services:
     container_name: grafana
     ports:
       - "3000:3000"
-    volumes:
-      - grafana-data:/var/lib/grafana
     restart: always
-
-volumes:
-  grafana-data:

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+import sqlite3
 from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(title="Auth Service")
@@ -15,31 +16,49 @@ app.add_middleware(
 
 Instrumentator().instrument(app).expose(app)
 
-users = {}
-
 class User(BaseModel):
-    username: str
+    email: str
     password: str
+
+def init_db():
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT UNIQUE,
+            password TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+init_db()
 
 @app.get("/")
 def home():
-    return {"message": "Auth Service Running"}
-
-@app.get("/health")
-def health():
-    return {"status": "healthy"}
+    return {"service": "Auth Service running"}
 
 @app.post("/register")
 def register(user: User):
-    if user.username in users:
-        return {"message": "User already exists"}
-
-    users[user.username] = user.password
-    return {"message": "User registered successfully"}
+    try:
+        conn = sqlite3.connect("users.db")
+        cur = conn.cursor()
+        cur.execute("INSERT INTO users(email, password) VALUES (?, ?)", (user.email, user.password))
+        conn.commit()
+        conn.close()
+        return {"message": "Registration successful"}
+    except:
+        return {"error": "User already exists"}
 
 @app.post("/login")
 def login(user: User):
-    if users.get(user.username) == user.password:
-        return {"message": "Login successful"}
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE email=? AND password=?", (user.email, user.password))
+    data = cur.fetchone()
+    conn.close()
 
-    return {"message": "Invalid credentials"}
+    if data:
+        return {"message": "Login successful", "email": user.email}
+    return {"error": "Invalid email or password"}
