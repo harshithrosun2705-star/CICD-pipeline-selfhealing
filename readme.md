@@ -1,106 +1,261 @@
-Cloud-Native Microservices Application with CI/CD and Monitoring
+# CloudMart – Scalable Cloud-Native Microservices E-Commerce Platform
 
-Overview
-This project is a **microservices-based web application** built to demonstrate real-world DevOps practices.
+## 📌 Overview
 
-It includes:
-- Multiple backend services (Auth, Task, Order)
-- A simple frontend for user interaction
-- Containerization using Docker
-- CI/CD automation
-- Monitoring using Prometheus and Grafana
+CloudMart is a cloud-native e-commerce platform built using a microservices architecture and deployed on AWS. The project demonstrates modern DevOps practices including containerization, CI/CD automation, load balancing, auto scaling, self-healing infrastructure, and real-time monitoring.
+
+The application consists of independent microservices for authentication, product management, and order processing, ensuring scalability, fault isolation, and high availability.
 
 ---
 
-Achitecture
+## 🚀 Features
 
-Frontend (Nginx)
-↓ 
-Auth Service (Login/Register) 
-↓ 
-Task Service (Manage Tasks) 
-↓ 
-Order Service (User Actions)
-
----
-
-Tech Stack
-
-- Backend: FastAPI  
-- Frontend: HTML, CSS, JavaScript  
-- Containerization: Docker  
-- Orchestration: Docker Compose  
-- CI/CD: Jenkins  
-- Monitoring: Prometheus + Grafana  
-- Version Control: GitHub  
+- User Registration and Authentication
+- Product Listing and Management
+- Order Placement and Tracking
+- Microservices Architecture
+- Docker Containerization
+- CI/CD Automation with Jenkins
+- AWS EC2 Deployment
+- Application Load Balancer (ALB)
+- Auto Scaling Group (ASG)
+- Container-Level Self-Healing
+- Infrastructure-Level Auto-Healing
+- Real-Time Monitoring with Prometheus & Grafana
+- Traffic Management and High Availability
 
 ---
 
+## 🏗️ Architecture
+
+```text
+Users
+   │
+   ▼
+Application Load Balancer (ALB)
+   │
+   ▼
+Auto Scaling Group (ASG)
+   │
+   ▼
+EC2 Instances
+   │
+   ▼
+Docker Containers
+ ├── Frontend Service
+ ├── Auth Service
+ ├── Product Service
+ └── Order Service
+   │
+   ▼
+Prometheus + Grafana
+```
 
 ---
 
-Access the application
+## 🔧 Microservices
 
-| Service | URL |
-|--------|-----|
-| Frontend | http://localhost:8001 |
-| Auth API | http://localhost:8002/docs |
-| Task API | http://localhost:8003/docs |
-| Order API | http://localhost:8004/docs |
-| Prometheus | http://localhost:9090 |
-| Grafana | http://localhost:3000 |
+### Authentication Service
+Responsible for:
+- User Registration
+- User Login
+- Authentication Management
 
----
+### Product Service
+Responsible for:
+- Product Listing
+- Product Information Management
 
-Features
-
-- User authentication (login/register)  
-- Task management  
-- Order creation  
-- Microservices architecture  
-- Real-time monitoring  
-- Containerized deployment  
+### Order Service
+Responsible for:
+- Order Placement
+- Order Tracking
+- Order Management
 
 ---
 
-CI/CD Pipeline
+## 🛠️ Technology Stack
 
-- Code pushed to GitHub  
-- Jenkins pipeline triggered automatically  
-- Docker images built and deployed  
-- Containers updated without manual intervention  
+### Cloud & Infrastructure
+- AWS EC2
+- AWS VPC
+- Application Load Balancer (ALB)
+- Auto Scaling Group (ASG)
+- Security Groups
+
+### DevOps
+- Docker
+- Docker Compose
+- Jenkins
+- Git
+- GitHub
+
+### Backend
+- Python
+- FastAPI
+- Uvicorn
+- SQLite
+
+### Frontend
+- HTML
+- CSS
+- JavaScript
+- NGINX
+
+### Monitoring & Observability
+- Prometheus
+- Grafana
 
 ---
 
-Monitoring
+## 🔄 CI/CD Workflow
 
-- Metrics exposed via `/metrics` endpoint  
-- Collected using Prometheus  
-- Visualized using Grafana dashboards  
+```text
+Developer
+    │
+    ▼
+GitHub Repository
+    │
+    ▼
+Jenkins Pipeline
+    │
+    ▼
+Docker Build
+    │
+    ▼
+Deployment to AWS EC2
+```
+
+### Pipeline Stages
+
+1. Code Commit & Push to GitHub
+2. Jenkins Webhook Trigger
+3. Source Code Checkout
+4. Docker Image Build
+5. Container Deployment
+6. Service Verification
+7. Monitoring & Logging
 
 ---
 
-Security
+## 📊 Monitoring & Observability
 
-- Sensitive files excluded using `.gitignore`  
-- Supports environment variables for secrets  
+### Prometheus
+- Collects application metrics
+- Monitors API requests
+- Tracks service health
+- Provides real-time performance data
+
+### Grafana
+- Visualizes metrics through dashboards
+- Displays service health and performance
+- Supports troubleshooting and monitoring
 
 ---
 
-Key Highlights
+## ⚖️ Load Balancing & Auto Scaling
 
-- End-to-end DevOps implementation  
-- Automated CI/CD pipeline  
-- Scalable microservices architecture  
-- Integrated monitoring and observability  
+### Application Load Balancer (ALB)
+
+- Distributes incoming traffic across healthy instances
+- Prevents server overload
+- Improves availability and reliability
+- Routes requests efficiently
+
+### Auto Scaling Group (ASG)
+
+- Automatically launches new EC2 instances during high traffic
+- Terminates unused instances during low traffic
+- Replaces failed instances automatically
+- Ensures infrastructure auto-healing
 
 ---
 
-Future Improvements
+## 🔁 Self-Healing Mechanism
 
-- Add database (PostgreSQL)  
-- Implement JWT authentication  
-- Deploy using Kubernetes  
-- Add API Gateway  
+### Container-Level Self-Healing
 
-testing...
+Docker restart policies automatically restart failed containers.
+
+```yaml
+restart: always
+```
+
+### Infrastructure-Level Self-Healing
+
+Auto Scaling Group continuously monitors instance health and automatically replaces unhealthy EC2 instances.
+
+---
+
+## 📂 Project Structure
+
+```text
+CloudMart
+│
+├── frontend
+│
+├── auth-service
+│
+├── product-service
+│
+├── order-service
+│
+├── prometheus
+│
+├── grafana
+│
+├── docker-compose.yml
+│
+└── Jenkinsfile
+```
+
+---
+
+## ☁️ AWS Services Used
+
+- Amazon EC2
+- Amazon VPC
+- Application Load Balancer (ALB)
+- Auto Scaling Group (ASG)
+- Security Groups
+- Amazon Cloud Infrastructure
+
+---
+
+## 🎯 Key Learnings
+
+- Cloud Infrastructure Deployment
+- Microservices Architecture
+- Docker Containerization
+- CI/CD Pipeline Automation
+- Monitoring and Observability
+- Load Balancing Concepts
+- Auto Scaling and High Availability
+- Infrastructure Self-Healing
+- AWS Networking Fundamentals
+
+---
+
+## 🔮 Future Enhancements
+
+- Kubernetes Deployment
+- Terraform Infrastructure as Code (IaC)
+- AWS RDS Integration
+- Redis Caching
+- JWT-Based Authentication
+- Advanced Monitoring and Alerting
+- MLOps Integration
+
+---
+
+## 👨‍💻 Author
+
+Harshith Rosun W
+
+Cloud & DevOps Enthusiast | AWS | Docker | Jenkins | Python | Monitoring & Automation
+
+---
+
+## 🏷️ Topics
+
+aws, devops, docker, docker-compose, jenkins, fastapi, microservices, ecommerce, prometheus, grafana, load-balancer, auto-scaling, cloud-native, python, monitoring, cicd
